@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MyConstant {
   // Genernal
   static String appName = 'Shopping Mall';
+  static String domain = 'https://04f322839138.ngrok.io';
 
   // Route
   static String routeAuthen = '/authen';
@@ -39,7 +40,6 @@ class MyConstant {
         color: dark,
         fontWeight: FontWeight.normal,
       );
-      
 
   ButtonStyle myButtonStyle() => ElevatedButton.styleFrom(
         primary: MyConstant.primary,

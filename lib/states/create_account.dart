@@ -22,6 +22,12 @@ class _CreateAccountState extends State<CreateAccount> {
   File? file;
   double? lat, lng;
   final formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  String avatar = '';
 
   @override
   void initState() {
@@ -91,6 +97,7 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: nameController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'กรุณากรอก Name ด้วย คะ';
@@ -128,6 +135,7 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: phoneController,
             keyboardType: TextInputType.phone,
             validator: (value) {
               if (value!.isEmpty) {
@@ -164,6 +172,7 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: userController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'กรุณากรอก User ด้วย คะ';
@@ -199,6 +208,7 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: passwordController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'กรุณากรอก Password ด้วย คะ';
@@ -236,6 +246,7 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: addressController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'กรุณากรอก Address ด้วย คะ';
@@ -310,7 +321,7 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-  IconButton buildCreateNewAccount() {
+   IconButton buildCreateNewAccount() {
     return IconButton(
       onPressed: () {
         if (formKey.currentState!.validate()) {
@@ -326,6 +337,10 @@ class _CreateAccountState extends State<CreateAccount> {
       icon: Icon(Icons.cloud_upload),
     );
   }
+
+  
+
+  
 
   Set<Marker> setMarker() => <Marker>[
         Marker(
