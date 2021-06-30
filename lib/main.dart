@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoppingmall/states/add_product.dart';
 import 'package:shoppingmall/states/authen.dart';
 import 'package:shoppingmall/states/buyer_service.dart';
 import 'package:shoppingmall/states/create_account.dart';
@@ -13,6 +14,7 @@ final Map<String, WidgetBuilder> map = {
   '/buyerService': (BuildContext context) => BuyerService(),
   '/salerService': (BuildContext context) => SalerService(),
   '/riderService': (BuildContext context) => RiderService(),
+  '/addProduct':(BuildContext context)=> AddProduct(),
 };
 
 String? initlalRoute;
@@ -31,11 +33,11 @@ Future<Null> main() async {
         initlalRoute = MyConstant.routeBuyerService;
         runApp(MyApp());
         break;
-         case 'seller':
+      case 'seller':
         initlalRoute = MyConstant.routeSalerService;
         runApp(MyApp());
         break;
-         case 'rider':
+      case 'rider':
         initlalRoute = MyConstant.routeRiderService;
         runApp(MyApp());
         break;
@@ -49,10 +51,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MaterialColor materialColor =
+        MaterialColor(0xff575900, MyConstant.mapMaterialColor);
     return MaterialApp(
       title: MyConstant.appName,
       routes: map,
       initialRoute: initlalRoute,
+      theme: ThemeData(primarySwatch: materialColor),
     );
   }
 }
