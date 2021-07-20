@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoppingmall/main.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
 import 'package:shoppingmall/utility/my_dialog.dart';
 import 'package:shoppingmall/widgets/show_image.dart';
@@ -25,6 +24,7 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailController = TextEditingController();
+  List<String> paths = [];
 
   @override
   void initState() {
@@ -109,6 +109,9 @@ class _AddProductState extends State<AddProduct> {
         for (var item in files) {
           int i = Random().nextInt(1000000);
           String nameFile = 'product$i.jpg';
+
+          paths.add('/product/$nameFile');
+
           Map<String, dynamic> map = {};
           map['file'] =
               await MultipartFile.fromFile(item!.path, filename: nameFile);
@@ -125,8 +128,15 @@ class _AddProductState extends State<AddProduct> {
               String name = nameController.text;
               String price = priceController.text;
               String detail = detailController.text;
+              String images = paths.toString();
               print('### idSeller = $idSeller, nameSeller = $nameSeller');
               print('### name = $name, price = $price, detail = $detail');
+              print('### images ==> $images');
+
+              String path =
+                  '${MyConstant.domain}/shoppingmall/insertProduct.php?isAdd=true&idSeller=$idSeller&nameSeller=$nameSeller&name=$name&price=$price&detail=$detail&images=$images';
+
+              await Dio().get(path).then((value) => Navigator.pop(context));
 
               Navigator.pop(context);
             }
