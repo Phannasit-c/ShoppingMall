@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingmall/main.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
 import 'package:shoppingmall/utility/my_dialog.dart';
@@ -21,6 +22,9 @@ class _AddProductState extends State<AddProduct> {
   final formKey = GlobalKey<FormState>();
   List<File?> files = [];
   File? file;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController detailController = TextEditingController();
 
   @override
   void initState() {
@@ -109,13 +113,23 @@ class _AddProductState extends State<AddProduct> {
           map['file'] =
               await MultipartFile.fromFile(item!.path, filename: nameFile);
           FormData data = FormData.fromMap(map);
-          await Dio().post(apiSaveProduct, data: data).then((value) {
+          await Dio().post(apiSaveProduct, data: data).then((value) async {
             print('Upload Success');
             loop++;
             if (loop >= files.length) {
+              SharedPreferences preference =
+                  await SharedPreferences.getInstance();
+
+              String idSeller = preference.getString('id')!;
+              String nameSeller = preference.getString('name')!;
+              String name = nameController.text;
+              String price = priceController.text;
+              String detail = detailController.text;
+              print('### idSeller = $idSeller, nameSeller = $nameSeller');
+              print('### name = $name, price = $price, detail = $detail');
+
               Navigator.pop(context);
             }
-            
           });
         }
       } else {
@@ -257,6 +271,7 @@ class _AddProductState extends State<AddProduct> {
       width: constraints.maxWidth * 0.75,
       margin: EdgeInsets.only(top: 16),
       child: TextFormField(
+        controller: nameController,
         validator: (value) {
           if (value!.isEmpty) {
             return 'Please Fill Name in Blank';
@@ -293,6 +308,7 @@ class _AddProductState extends State<AddProduct> {
       width: constraints.maxWidth * 0.75,
       margin: EdgeInsets.only(top: 16),
       child: TextFormField(
+        controller: priceController,
         validator: (value) {
           if (value!.isEmpty) {
             return 'Please Fill Price in Blank';
@@ -330,6 +346,7 @@ class _AddProductState extends State<AddProduct> {
       width: constraints.maxWidth * 0.75,
       margin: EdgeInsets.only(top: 16),
       child: TextFormField(
+        controller: detailController,
         validator: (value) {
           if (value!.isEmpty) {
             return 'Please Fill Detail in Blank';
